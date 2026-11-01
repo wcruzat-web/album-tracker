@@ -39,7 +39,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const MODEL = "gemini-1.5-flash"; // use a current free-tier model from AI Studio
+  const MODEL = "gemini-3.5-flash-lite";
 
   try {
     const r = await fetch(
