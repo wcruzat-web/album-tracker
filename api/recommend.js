@@ -1,9 +1,21 @@
+import { createHash } from "node:crypto";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Use POST." });
   }
 
   const key = process.env.GEMINI_API_KEY;
+
+  // Temporary API key diagnostics — never logs the actual key
+  console.log("Gemini key diagnostics:", {
+    exists: Boolean(key),
+    length: key?.length,
+    hasWhitespace: key !== key?.trim(),
+    fingerprint: key
+      ? createHash("sha256").update(key).digest("hex").slice(0, 12)
+      : null,
+  });
 
   if (!key) {
     return res.status(500).json({
