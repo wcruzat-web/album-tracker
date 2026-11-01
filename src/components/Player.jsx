@@ -1,5 +1,6 @@
-import { usePlayer } from "../context/usePlayer.js";
+import { usePlayer } from "../context/PlayerContext.jsx";
 import { bigArt } from "../services/itunes.js";
+
 export default function Player() {
   const {
     current,
@@ -11,9 +12,10 @@ export default function Player() {
     seek,
     hasNext,
     hasPrev,
-    playbackError,
   } = usePlayer();
+
   if (!current) return null;
+
   return (
     <footer className="player">
       <img src={bigArt(current.artworkUrl100, 120)} alt="" />
@@ -22,29 +24,17 @@ export default function Player() {
         <span>{current.artistName}</span>
       </div>
       <div className="controls">
-        <button
-          onClick={prev}
-          disabled={!hasPrev}
-          type="button"
-          aria-label="Previous track"
-        >
+        <button onClick={prev} disabled={!hasPrev} aria-label="Previous track">
           ⏮
         </button>
-
         <button
           className="main"
           onClick={toggle}
-          type="button"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? "❚❚" : "▶"}
         </button>
-        <button
-          onClick={next}
-          disabled={!hasNext}
-          type="button"
-          aria-label="Next track"
-        >
+        <button onClick={next} disabled={!hasNext} aria-label="Next track">
           ⏭
         </button>
       </div>
@@ -57,7 +47,6 @@ export default function Player() {
         onChange={(e) => seek(e.target.value / 1000)}
         aria-label="Seek"
       />
-      {playbackError && <span className="notice error">{playbackError}</span>}
     </footer>
   );
 }

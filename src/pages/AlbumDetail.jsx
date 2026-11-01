@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
-import TrackList from "../components/TrackList.jsx";
+import AlbumPlayback from "../components/AlbumPlayback.jsx";
 import StatusSelect from "../components/StatusSelect.jsx";
 import Stars from "../components/Stars.jsx";
-import { useCollection } from "../context/useCollection.js";
+import { useCollection } from "../context/CollectionContext.jsx";
 import {
   bigArt,
   getAlbumTracks,
   spotifySearchUrl,
   youtubeSearchUrl,
 } from "../services/itunes.js";
+
 export default function AlbumDetail({ albumId, back }) {
   const { albums, save, update, remove } = useCollection();
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
+
   useEffect(() => {
+    setData(null);
+    setError("");
     getAlbumTracks(albumId)
       .then(setData)
       .catch((e) => setError(e.message));
   }, [albumId]);
+
   if (error)
     return (
       <section className="page">
@@ -30,8 +35,10 @@ export default function AlbumDetail({ albumId, back }) {
         <p className="notice">Loading album...</p>
       </section>
     );
+
   const { album, tracks } = data;
   const saved = albums[album.collectionId];
+
   return (
     <section className="page">
       <button className="link-btn" onClick={back}>
@@ -46,7 +53,7 @@ export default function AlbumDetail({ albumId, back }) {
           <h2 className="page-title">{album.collectionName}</h2>
           <p className="detail-artist">{album.artistName}</p>
           <p className="card-meta">
-            {album.releaseDate?.slice(0, 4)} · {album.primaryGenreName} ·
+            {album.releaseDate?.slice(0, 4)} · {album.primaryGenreName} ·{" "}
             {album.trackCount} tracks
           </p>
           <div className="where">
@@ -65,7 +72,6 @@ export default function AlbumDetail({ albumId, back }) {
             >
               YouTube
             </a>
-
             {album.collectionViewUrl && (
               <a
                 href={album.collectionViewUrl}
@@ -82,12 +88,10 @@ export default function AlbumDetail({ albumId, back }) {
                 value={saved.status}
                 onChange={(status) => update(album.collectionId, { status })}
               />
-
               <Stars
                 value={saved.rating}
                 onChange={(rating) => update(album.collectionId, { rating })}
               />
-
               <textarea
                 value={saved.notes}
                 onChange={(e) =>
@@ -110,7 +114,11 @@ export default function AlbumDetail({ albumId, back }) {
           )}
         </div>
       </div>
-      <TrackList tracks={tracks} />
+      <AlbumPlayback
+        title={album.collectionName}
+        artist={album.artistName}
+        tracks={tracks}
+      />
     </section>
   );
 }

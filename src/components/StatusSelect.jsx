@@ -1,4 +1,8 @@
-import { STATUSES } from "../constants/statuses.js";
+export const STATUSES = [
+  { id: "wishlist", label: "Want to listen" },
+  { id: "listening", label: "Listening" },
+  { id: "listened", label: "Listened" },
+];
 
 export default function StatusSelect({ value, onChange }) {
   return (
@@ -6,7 +10,6 @@ export default function StatusSelect({ value, onChange }) {
       {STATUSES.map((s) => (
         <button
           key={s.id}
-          type="button"
           className={`chip ${value === s.id ? "on" : ""}`}
           onClick={() => onChange(s.id)}
         >

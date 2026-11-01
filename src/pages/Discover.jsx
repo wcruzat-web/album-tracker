@@ -1,11 +1,13 @@
 import { useState } from "react";
 import AlbumCard from "../components/AlbumCard.jsx";
 import { searchAlbums } from "../services/itunes.js";
+
 export default function Discover({ openAlbum }) {
   const [term, setTerm] = useState("");
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const onSubmit = async () => {
     if (!term.trim()) return;
     setLoading(true);
@@ -18,6 +20,7 @@ export default function Discover({ openAlbum }) {
       setLoading(false);
     }
   };
+
   return (
     <section className="page">
       <h2 className="page-title">Find an album</h2>
@@ -36,14 +39,12 @@ export default function Discover({ openAlbum }) {
       {error && <p className="notice error">{error}</p>}
       {results === null && !error && (
         <p className="notice">
-          Search for an album to see its tracks, play 30- second previews, and
-          save it.
+          Search for an album to see its tracks, play 30-second previews, and save it.
         </p>
       )}
       {results?.length === 0 && (
         <p className="notice">
-          No albums found for “{term}”. Check the spelling or try the artist's
-          name.
+          No albums found for “{term}”. Check the spelling or try the artist's name.
         </p>
       )}
       <div className="grid">

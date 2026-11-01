@@ -1,10 +1,13 @@
-import { usePlayer } from "../context/usePlayer.js";
+import { usePlayer } from "../context/PlayerContext.jsx";
+
 const fmt = (ms) => {
   const s = Math.round(ms / 1000);
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
+
 export default function TrackList({ tracks }) {
   const { current, isPlaying, playTrack } = usePlayer();
+
   return (
     <ol className="tracks">
       {tracks.map((t) => {
@@ -13,7 +16,6 @@ export default function TrackList({ tracks }) {
           <li key={t.trackId} className={active ? "track active" : "track"}>
             <button
               className="play-btn"
-              type="button"
               disabled={!t.previewUrl}
               onClick={() => playTrack(t, tracks)}
               aria-label={
