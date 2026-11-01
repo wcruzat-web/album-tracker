@@ -7,6 +7,8 @@ A React music web app with Deezer playback, AI-powered recommendations, and cust
 ## Screenshot & Live Demo
 
 ![Live Demo](./public/liveImage.png)
+![Album Demo](./public/albumPage.png)
+![Recommendation Demo](./public/recommendImage.png)
 
 Live Demo: https://album-tracker-wency.vercel.app/
 
